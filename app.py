@@ -1,45 +1,32 @@
 import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 
-# 1. Page Configuration
-st.set_page_config(page_title="OpenAI Q&A Bot", page_icon="🤖")
-st.title("🤖 OpenAI & LangChain Q&A Bot")
-st.write("Ask any question and get an instant response powered by GPT-4o-mini.")
+st.set_page_config(page_title="Free Q&A Bot", page_icon="🤖")
+st.title("🤖 Free & Fast Q&A Bot")
 
-# 2. Initialize the LangChain Model
-# Streamlit will automatically look for the key in its secure Secrets settings
 try:
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.7)
+    # Uses Llama 3 on Groq infrastructure (Completely Free Tier)
+    llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
 except Exception:
-    st.error("Please configure your OPENAI_API_KEY in the Streamlit settings.")
+    st.error("Please configure your GROQ_API_KEY in Streamlit settings.")
 
-# 3. Create the User Interface
 with st.form("qa_form"):
-    user_question = st.text_area(
-        "Your Question:", 
-        placeholder="e.g., What is the distance between the Earth and the Moon?"
-    )
-    # CHANGED THIS LINE BELOW (removed "_with_"):
-    submitted = st.form_submit_button("Ask Bot") 
+    user_question = st.text_area("Your Question:", placeholder="e.g., Explain gravity like I am 5.")
+    submitted = st.form_submit_button("Ask Bot")
 
-# 4. Handle Form Submission
 if submitted:
     if not user_question.strip():
         st.warning("Please enter a valid question.")
     else:
         with st.spinner("Thinking..."):
             try:
-                # Define prompt
                 prompt = ChatPromptTemplate.from_messages([
-                    ("system", "You are a helpful assistant providing clear and concise answers."),
+                    ("system", "You are a helpful assistant providing clear answers."),
                     ("user", "{question}")
                 ])
-                # Run chain
                 chain = prompt | llm
                 response = chain.invoke({"question": user_question})
-                
-                # Display Answer
                 st.success("Answer:")
                 st.write(response.content)
             except Exception as e:
