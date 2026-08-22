@@ -6,10 +6,11 @@ st.set_page_config(page_title="Free Q&A Bot", page_icon="🤖")
 st.title("🤖 Free & Fast Q&A Bot")
 
 try:
-    # Uses Llama 3 on Groq infrastructure (Completely Free Tier)
-    llm = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.7)
+    # UPDATED THIS LINE (changed model to an active production ID)
+    llm = ChatGroq(model="llama-3.1-8b-instant", temperature=0.7)
 except Exception:
     st.error("Please configure your GROQ_API_KEY in Streamlit settings.")
+
 
 with st.form("qa_form"):
     user_question = st.text_area("Your Question:", placeholder="e.g., Explain gravity like I am 5.")
