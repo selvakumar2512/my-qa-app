@@ -20,7 +20,8 @@ with st.form("qa_form"):
         "Your Question:", 
         placeholder="e.g., What is the distance between the Earth and the Moon?"
     )
-    submitted = st.form_submit_with_button("Ask Bot")
+    # CHANGED THIS LINE BELOW (removed "_with_"):
+    submitted = st.form_submit_button("Ask Bot") 
 
 # 4. Handle Form Submission
 if submitted:
