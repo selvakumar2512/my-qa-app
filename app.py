@@ -6,11 +6,10 @@ st.set_page_config(page_title="Free Q&A Bot", page_icon="🤖")
 st.title("🤖 Free & Fast Q&A Bot")
 
 try:
-    # UPDATED: Swapped the deprecated llama model for an active production model ID
-    llm = ChatGroq(model="gemma2-9b-it", temperature=0.7)
+    # UPDATED: Swapped the decommissioned model for an active production model ID
+    llm = ChatGroq(model="openai/gpt-oss-20b", temperature=0.7)
 except Exception:
     st.error("Please configure your GROQ_API_KEY in Streamlit settings.")
-
 
 
 with st.form("qa_form"):
